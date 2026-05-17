@@ -1,0 +1,672 @@
+# VoxProof Technical Specification
+
+## Project Name
+
+VoxProof — AI Voice Agent Security & Runtime Validation Platform
+
+---
+
+# 1. General Project Description
+
+## 1.1 Purpose
+
+The purpose of the platform is to provide runtime security validation, adversarial testing, and policy enforcement for AI-powered conversational and voice agents.
+
+The system must:
+
+* detect prompt injections,
+* identify malicious conversational behavior,
+* validate tool execution safety,
+* prevent sensitive data exfiltration,
+* classify conversational threats,
+* generate enterprise-grade security reports,
+* support replayable attack simulation.
+
+---
+
+# 2. Business Goals
+
+## 2.1 Strategic Objectives
+
+The platform must enable organizations to:
+
+1. Secure AI voice agents in production
+2. Validate conversational AI before deployment
+3. Reduce operational risk from autonomous agents
+4. Provide runtime AI governance
+5. Improve AI auditability and compliance
+6. Detect and mitigate adversarial attacks
+7. Support human-in-the-loop escalation
+
+---
+
+# 3. Functional Requirements
+
+# 3.1 Authentication Module
+
+## Requirements
+
+The platform shall:
+
+* support JWT authentication,
+* support secure password hashing,
+* support user sessions,
+* support token expiration,
+* support API authorization.
+
+## Technical Requirements
+
+| Requirement        | Value        |
+| ------------------ | ------------ |
+| Auth Type          | JWT          |
+| Password Hashing   | bcrypt       |
+| Session Expiration | 24h          |
+| API Protection     | Bearer Token |
+
+---
+
+# 3.2 Scenario Management Module
+
+## Requirements
+
+The system shall:
+
+* load attack scenarios from YAML,
+* support multiple attack suites,
+* support replay execution,
+* support scenario versioning,
+* support custom attack creation.
+
+## Supported Scenario Types
+
+| Scenario Type      | Description               |
+| ------------------ | ------------------------- |
+| Prompt Injection   | LLM override attacks      |
+| Tool Abuse         | Unsafe action attempts    |
+| Data Exfiltration  | Sensitive data extraction |
+| Whisper Injection  | Hidden audio instructions |
+| Social Engineering | Authority spoofing        |
+
+---
+
+# 3.3 ReplayRunner Module
+
+## Purpose
+
+Execute deterministic replay attacks.
+
+## Functional Requirements
+
+The module shall:
+
+* execute YAML scenarios,
+* process transcripts sequentially,
+* aggregate findings,
+* generate runtime trust scores,
+* support CI/CD execution,
+* generate execution reports.
+
+## Non-Functional Requirements
+
+| Parameter          | Requirement        |
+| ------------------ | ------------------ |
+| Concurrent Replays | Minimum 10         |
+| Average Runtime    | < 10 seconds       |
+| Failure Recovery   | Required           |
+| Logging            | Full trace logging |
+
+---
+
+# 3.4 LiveRunner Module
+
+## Purpose
+
+Simulate and process live conversational events.
+
+## Functional Requirements
+
+The module shall:
+
+* stream conversation events,
+* support WebSocket transport,
+* perform real-time security analysis,
+* update trust scores dynamically,
+* trigger escalation events.
+
+## Performance Requirements
+
+| Metric                 | Requirement |
+| ---------------------- | ----------- |
+| WebSocket Latency      | < 100ms     |
+| Concurrent Sessions    | Minimum 100 |
+| Runtime Classification | < 500ms     |
+
+---
+
+# 3.5 AudioHeuristics Engine
+
+## Purpose
+
+Detect audio-layer attacks.
+
+## Functional Requirements
+
+The engine shall:
+
+* detect whisper injections,
+* detect urgency manipulation,
+* detect authority spoofing,
+* detect emotional coercion,
+* classify suspicious transcript patterns.
+
+## Detection Categories
+
+| Category             | Description               |
+| -------------------- | ------------------------- |
+| Whisper Injection    | Hidden commands           |
+| Authority Spoofing   | Fake executive identity   |
+| Urgency Manipulation | Pressure escalation       |
+| Emotional Coercion   | Threat-based manipulation |
+
+---
+
+# 3.6 PromptInjectionClassifier
+
+## Purpose
+
+Detect prompt injection attacks.
+
+## Functional Requirements
+
+The classifier shall:
+
+* detect jailbreak attempts,
+* detect instruction overrides,
+* detect system prompt extraction attempts,
+* classify malicious conversational intent,
+* assign severity levels.
+
+## Severity Levels
+
+| Severity | Description      |
+| -------- | ---------------- |
+| LOW      | Suspicious       |
+| MEDIUM   | Potential attack |
+| HIGH     | Active attack    |
+| CRITICAL | Immediate threat |
+
+---
+
+# 3.7 ToolArgsPolicyEngine
+
+## Purpose
+
+Validate runtime tool execution safety.
+
+## Functional Requirements
+
+The engine shall:
+
+* inspect tool arguments,
+* validate allowed actions,
+* detect unsafe parameters,
+* block restricted operations,
+* enforce policy rules.
+
+## Protected Domains
+
+| Domain         | Example                 |
+| -------------- | ----------------------- |
+| Financial      | Unauthorized refunds    |
+| CRM            | Customer exports        |
+| Infrastructure | Dangerous admin actions |
+| API Access     | Unsafe requests         |
+
+---
+
+# 3.8 RAG Sanitizer
+
+## Purpose
+
+Protect retrieval-augmented generation pipelines.
+
+## Functional Requirements
+
+The sanitizer shall:
+
+* detect poisoned RAG content,
+* remove malicious instructions,
+* sanitize retrieved documents,
+* prevent retrieval-based jailbreaks.
+
+---
+
+# 3.9 Boundary Engine
+
+## Purpose
+
+Segment findings into security boundaries.
+
+## Supported Boundaries
+
+| Boundary       | Description           |
+| -------------- | --------------------- |
+| AUDIO_LAYER    | Voice attacks         |
+| USER_INPUT     | User-originated input |
+| TOOL_ARGUMENT  | Tool validation       |
+| TOOL_EXECUTION | Runtime execution     |
+| EGRESS         | Outbound data flow    |
+| POLICY_GAP     | Undefined behavior    |
+
+---
+
+# 3.10 Gemini Integration
+
+## Purpose
+
+Provide semantic AI-assisted threat classification.
+
+## Functional Requirements
+
+The integration shall:
+
+* classify conversational threats,
+* generate root cause analysis,
+* generate remediation suggestions,
+* provide confidence scoring,
+* support asynchronous execution.
+
+## Technical Requirements
+
+| Requirement   | Value         |
+| ------------- | ------------- |
+| Provider      | Google Gemini |
+| API Type      | REST          |
+| Async Support | Required      |
+| Timeout       | 15 seconds    |
+
+---
+
+# 3.11 LobsterTrap Integration
+
+## Purpose
+
+Provide deterministic policy enforcement.
+
+## Functional Requirements
+
+The integration shall:
+
+* inspect transcripts,
+* evaluate policy rules,
+* support allow/deny decisions,
+* support escalation routing,
+* support YAML policy definitions.
+
+## Supported Decisions
+
+| Decision | Meaning                |
+| -------- | ---------------------- |
+| ALLOW    | Safe interaction       |
+| DENY     | Block request          |
+| REVIEW   | Human escalation       |
+| LOG      | Store suspicious event |
+
+---
+
+# 3.12 Gate Engine
+
+## Purpose
+
+Aggregate all findings into a final trust decision.
+
+## Functional Requirements
+
+The engine shall:
+
+* aggregate findings,
+* calculate trust scores,
+* classify runtime risk,
+* generate final decisions,
+* support escalation workflows.
+
+## Trust Score Scale
+
+| Score  | Interpretation  |
+| ------ | --------------- |
+| 90–100 | Trusted         |
+| 70–89  | Monitor         |
+| 40–69  | Review Required |
+| 0–39   | Unsafe          |
+
+---
+
+# 3.13 Reporting Module
+
+## Purpose
+
+Generate enterprise security reports.
+
+## Functional Requirements
+
+The module shall:
+
+* generate HTML reports,
+* visualize findings,
+* visualize trust scores,
+* provide remediation recommendations,
+* support audit exports.
+
+## Report Contents
+
+* Scenario metadata
+* Security findings
+* Severity mapping
+* AI explanations
+* Runtime decisions
+* Suggested mitigations
+
+---
+
+# 3.14 Frontend Dashboard
+
+## Purpose
+
+Provide operational UI for runtime monitoring.
+
+## Functional Requirements
+
+The frontend shall:
+
+* display live events,
+* display attack findings,
+* display trust scores,
+* support replay execution,
+* support custom attack creation,
+* support report visualization.
+
+## UI Requirements
+
+| Requirement        | Value      |
+| ------------------ | ---------- |
+| Frontend Framework | React      |
+| Language           | TypeScript |
+| Real-Time Updates  | WebSocket  |
+| Responsive Design  | Required   |
+
+---
+
+# 4. API Requirements
+
+## REST API
+
+### Required Endpoints
+
+| Endpoint               | Method    | Purpose              |
+| ---------------------- | --------- | -------------------- |
+| /health                | GET       | Service health       |
+| /api/scenarios/{suite} | GET       | Scenario listing     |
+| /api/run/{suite}       | POST      | Execute attack suite |
+| /api/runs              | GET       | Historical runs      |
+| /api/runs/{id}         | GET       | Run details          |
+| /api/runs/{id}/report  | GET       | HTML report          |
+| /ws/live               | WebSocket | Runtime monitoring   |
+
+---
+
+# 5. Database Requirements
+
+## Current Storage
+
+SQLite shall be used for:
+
+* development,
+* demos,
+* local deployments.
+
+## Future Production Storage
+
+PostgreSQL shall support:
+
+* concurrent writes,
+* scalability,
+* analytics,
+* enterprise persistence.
+
+## Stored Artifacts
+
+* traces,
+* reports,
+* findings,
+* trust scores,
+* runtime events.
+
+---
+
+# 6. Deployment Requirements
+
+# 6.1 Containerization
+
+The platform shall support Docker deployment.
+
+## Supported Platforms
+
+| Platform         | Status   |
+| ---------------- | -------- |
+| Linux x64        | Required |
+| ARM64            | Required |
+| Oracle Cloud ARM | Required |
+| Docker Compose   | Required |
+
+---
+
+# 6.2 Environment Configuration
+
+The platform shall support:
+
+* .env configuration,
+* API key management,
+* configurable ports,
+* configurable providers.
+
+## Required Environment Variables
+
+| Variable       | Purpose         |
+| -------------- | --------------- |
+| GEMINI_API_KEY | Gemini access   |
+| BACKEND_PORT   | API port        |
+| FRONTEND_PORT  | Frontend port   |
+| DATABASE_URL   | Database config |
+
+---
+
+# 7. Non-Functional Requirements
+
+# 7.1 Performance
+
+| Metric            | Requirement  |
+| ----------------- | ------------ |
+| API Response Time | < 500ms      |
+| Replay Execution  | < 10 seconds |
+| WebSocket Latency | < 100ms      |
+| Concurrent Users  | Minimum 100  |
+
+---
+
+# 7.2 Security
+
+The platform shall:
+
+* support HTTPS,
+* support JWT authentication,
+* hash passwords securely,
+* validate all user inputs,
+* sanitize outbound content,
+* log all security events.
+
+---
+
+# 7.3 Scalability
+
+The architecture shall support:
+
+* horizontal scaling,
+* async processing,
+* distributed workers,
+* Redis queues,
+* Kubernetes deployment.
+
+---
+
+# 7.4 Reliability
+
+The platform shall:
+
+* support structured logging,
+* support retry logic,
+* support graceful failure handling,
+* support runtime monitoring.
+
+---
+
+# 8. System Architecture Diagram
+
+```mermaid
+flowchart TB
+    User --> VoiceAgent
+    VoiceAgent --> VoxProof
+
+    subgraph VoxProof
+        API[FastAPI API]
+
+        Replay[ReplayRunner]
+        Live[LiveRunner]
+
+        Audio[AudioHeuristics]
+        Injection[PromptInjectionClassifier]
+        RAG[RAGSanitizer]
+        ToolPolicy[ToolArgsPolicyEngine]
+        Boundary[BoundaryEngine]
+
+        Gemini[GeminiAdapter]
+        Lobster[LobsterAdapter]
+
+        Gate[GateEngine]
+        Reports[ReportGenerator]
+        Trace[(TraceStore)]
+    end
+
+    API --> Replay
+    API --> Live
+
+    Replay --> Audio
+    Replay --> Injection
+    Replay --> RAG
+    Replay --> ToolPolicy
+    Replay --> Boundary
+
+    Boundary --> Gate
+    Gemini --> Gate
+    Lobster --> Gate
+
+    Gate --> Reports
+    Gate --> Trace
+```
+
+---
+
+# 9. CI/CD Requirements
+
+## Pipeline Stages
+
+```mermaid
+flowchart LR
+    Commit --> Tests
+    Tests --> ReplayValidation
+    ReplayValidation --> ReportGeneration
+    ReportGeneration --> Deployment
+```
+
+## CI/CD Requirements
+
+The pipeline shall:
+
+* execute tests,
+* execute replay scenarios,
+* fail on critical findings,
+* generate reports,
+* deploy containers automatically.
+
+---
+
+# 10. Future Requirements
+
+## Enterprise Features
+
+* Multi-tenancy
+* RBAC
+* SIEM integration
+* SOC2 compliance support
+* Audit export tooling
+* Kubernetes orchestration
+* Voice biometrics
+* Autonomous red teaming
+
+---
+
+# 11. Acceptance Criteria
+
+## Functional Acceptance
+
+The system shall be considered complete if:
+
+* replay scenarios execute successfully,
+* prompt injections are detected,
+* tool abuse is blocked,
+* reports are generated,
+* trust scores are calculated,
+* live monitoring works correctly,
+* WebSocket updates function correctly.
+
+## Performance Acceptance
+
+The system shall:
+
+* support minimum 100 concurrent sessions,
+* maintain API latency below 500ms,
+* execute replay suites below 10 seconds.
+
+---
+
+# 12. Final Deliverables
+
+## Required Deliverables
+
+| Deliverable          | Status   |
+| -------------------- | -------- |
+| Backend API          | Required |
+| Frontend Dashboard   | Required |
+| Replay Engine        | Required |
+| Security Pipeline    | Required |
+| Gemini Integration   | Required |
+| Lobster Integration  | Required |
+| Docker Deployment    | Required |
+| Documentation        | Required |
+| Technical Whitepaper | Required |
+| Security Reports     | Required |
+
+---
+
+# 13. Conclusion
+
+VoxProof is a runtime AI security platform designed to secure conversational and voice-based AI systems.
+
+The platform combines:
+
+* deterministic policy enforcement,
+* semantic AI threat classification,
+* replayable adversarial testing,
+* runtime observability,
+* and enterprise reporting.
+
+The architecture is modular, scalable, and suitable for future enterprise AI governance and production AI security workflows.

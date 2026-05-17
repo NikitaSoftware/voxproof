@@ -1,0 +1,16 @@
+.DS_Store
+.git
+.pytest_cache
+**/__pycache__
+**/*.pyc
+backend/.pytest_cache
+frontend/node_modules
+voxproof.db
+*.db
+*.sqlite
+*.sqlite3
+*.log
+.env
+.env.*
+!/.env.example
+docs/superpowers

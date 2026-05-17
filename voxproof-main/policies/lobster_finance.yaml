@@ -1,0 +1,115 @@
+policy_name: "finance_voice_agent"
+version: "1.0"
+description: "Security policy for financial voice AI agents — VoxProof"
+default_action: ALLOW
+
+ingress_rules:
+  - name: block_data_exfiltration
+    description: "Block bulk data export attempts"
+    priority: 100
+    action: DENY
+    deny_message: "[LOBSTER TRAP] Blocked: data exfiltration attempt detected"
+    conditions:
+      - field: prompt_text
+        match_type: regex
+        value: "(?i)(export.*(all|every|bulk).*customer|bulk.*export|download.*all|extract.*customer.*data|export.*email)"
+
+  - name: flag_prompt_injection
+    description: "Detect attempts to override system instructions"
+    priority: 95
+    action: DENY
+    deny_message: "[LOBSTER TRAP] Blocked: prompt injection attempt"
+    conditions:
+      - field: prompt_text
+        match_type: regex
+        value: "(?i)(ignore.*(previous|all|your).*(instruction|rule|policy|security)|you are now|pretend.*you.*are|act as if|forget.*your.*training)"
+
+  - name: flag_auth_bypass
+    description: "Detect authentication bypass attempts"
+    priority: 90
+    action: DENY
+    deny_message: "[LOBSTER TRAP] Blocked: authentication bypass attempt"
+    conditions:
+      - field: prompt_text
+        match_type: regex
+        value: "(?i)(mark.*verification.*(passed|complete|done)|override.*(verification|authentication)|skip.*(security|verification|check)|without.*verif)"
+
+  - name: flag_system_prompt_extraction
+    description: "Detect system prompt extraction attempts"
+    priority: 85
+    action: DENY
+    deny_message: "[LOBSTER TRAP] Blocked: system prompt extraction attempt"
+    conditions:
+      - field: prompt_text
+        match_type: regex
+        value: "(?i)(system prompt|hidden instruction|what are your rules|print.*(your|the).*(instruction|prompt|rule|config)|debug.*(mode|purpose))"
+
+  - name: flag_high_risk_action
+    description: "Flag high-value transactions for human review"
+    priority: 70
+    action: HUMAN_REVIEW
+    deny_message: "[LOBSTER TRAP] Flagged: high-risk action requires human review"
+    conditions:
+      - field: prompt_text
+        match_type: regex
+        value: "(?i)(refund.*(me|now|immediately)|wire.*transfer.*(now|immediately|urgent)|approve.*transaction.*without)"
+
+  - name: flag_social_engineering
+    description: "Detect authority impersonation and urgency tactics"
+    priority: 65
+    action: HUMAN_REVIEW
+    deny_message: "[LOBSTER TRAP] Flagged: possible social engineering detected"
+    conditions:
+      - field: prompt_text
+        match_type: regex
+        value: "(?i)((CFO|CEO|executive|director).{0,60}(urgent|immediately|now)|(urgent|immediately|right now|done now).{0,80}(CFO|CEO|executive|director))"
+
+  - name: flag_credit_manipulation
+    description: "Flag credit limit manipulation attempts"
+    priority: 60
+    action: HUMAN_REVIEW
+    deny_message: "[LOBSTER TRAP] Flagged: credit manipulation detected"
+    conditions:
+      - field: prompt_text
+        match_type: regex
+        value: "(?i)(credit limit|set.*limit.*(to|=).*(0|\\$0|zero|nothing)|change.*credit.*limit|remove.*credit)"
+
+  - name: flag_indirect_prompt_injection
+    description: "Detect malicious instructions embedded in retrieved context, emails, CRM notes, or documents"
+    priority: 98
+    action: DENY
+    deny_message: "[LOBSTER TRAP] Blocked: indirect prompt injection in untrusted context"
+    conditions:
+      - field: prompt_text
+        match_type: regex
+        value: "(?i)((retrieved context|crm note|email body|web page|document|tool output).{0,120}(ignore|override|forget).{0,80}(instruction|rule|policy|security)|<hidden>|<!--|display:\\s*none|invisible text)"
+
+  - name: flag_tool_result_injection
+    description: "Detect tool output that attempts to steer future agent actions"
+    priority: 97
+    action: DENY
+    deny_message: "[LOBSTER TRAP] Blocked: tool-result prompt injection"
+    conditions:
+      - field: prompt_text
+        match_type: regex
+        value: "(?i)(tool output|api response|crm note|retrieved context).{0,160}(send|post|forward|export|approve|refund|wire|mark.*verified|set.*credit)"
+
+  - name: flag_external_egress_channel
+    description: "Block attempts to send enterprise or customer data to an external destination"
+    priority: 96
+    action: DENY
+    deny_message: "[LOBSTER TRAP] Blocked: external egress destination"
+    conditions:
+      - field: prompt_text
+        match_type: regex
+        value: "(?i)(send|post|forward|export|upload).{0,100}(webhook|external|attacker|gmail\\.com|proton\\.me|outside|personal email)"
+
+  - name: flag_audio_covert_instruction
+    description: "Flag transcript markers associated with covert or imperceptible audio instructions"
+    priority: 75
+    action: HUMAN_REVIEW
+    deny_message: "[LOBSTER TRAP] Flagged: covert audio instruction"
+    conditions:
+      - field: prompt_text
+        match_type: regex
+        value: "(?i)(\\[(imperceptible|inaudible|ultrasonic|hidden audio|adversarial audio|low volume|music bed)\\]|not audible to the user|embedded in background audio|without notifying the user|silently approve|secretly export)"

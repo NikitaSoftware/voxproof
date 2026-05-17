@@ -1,0 +1,66 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="JSHint" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="false" level="WARNING" enabled_by_default="false">
+      <option name="ignoredPackages">
+        <list>
+          <option value="alembic" />
+          <option value="bcrypt" />
+          <option value="blinker" />
+          <option value="click" />
+          <option value="dnspython" />
+          <option value="email_validator" />
+          <option value="Flask" />
+          <option value="Flask-Admin" />
+          <option value="Flask-Bcrypt" />
+          <option value="Flask-Login" />
+          <option value="Flask-Migrate" />
+          <option value="Flask-Principal" />
+          <option value="Flask-Security" />
+          <option value="Flask-Select2" />
+          <option value="Flask-SQLAlchemy" />
+          <option value="Flask-WTF" />
+          <option value="greenlet" />
+          <option value="idna" />
+          <option value="importlib_resources" />
+          <option value="itsdangerous" />
+          <option value="Jinja2" />
+          <option value="Mako" />
+          <option value="MarkupSafe" />
+          <option value="passlib" />
+          <option value="SQLAlchemy" />
+          <option value="typing_extensions" />
+          <option value="Werkzeug" />
+          <option value="WTForms" />
+          <option value="gunicorn" />
+          <option value="dotenv" />
+          <option value="jira" />
+          <option value="loguru" />
+          <option value="psycopg2-binary" />
+          <option value="celery" />
+          <option value="redis" />
+          <option value="pymysql" />
+          <option value="cryptography" />
+          <option value="django" />
+          <option value="python-dotenv" />
+          <option value="django-cors-headers" />
+          <option value="djangorestframework" />
+          <option value="djangorestframework-simplejwt" />
+          <option value="drf-spectacular" />
+          <option value="django-ses" />
+          <option value="whitenoise" />
+          <option value="sentry-sdk" />
+          <option value="wagtail" />
+          <option value="django_extensions" />
+          <option value="django_storages" />
+          <option value="drf-rw-serializers" />
+          <option value="django-crum" />
+          <option value="django-phonenumber-field" />
+          <option value="arrow" />
+          <option value="phonenumbers" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
